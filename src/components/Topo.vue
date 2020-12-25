@@ -76,11 +76,11 @@ export default {
         .call(this.drag(simulation));
 
       node
-        .append("text")
+        .append("title")
         .attr("x", 8)
         .attr("y", "0.31em")
-        .text((d) => d.id)
-        .join("text");
+        .text((d) => d.id);
+      // .join("title");
 
       simulation.on("tick", () => {
         link
