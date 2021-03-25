@@ -6,10 +6,17 @@
     </div>
     <div class="btn">
       <el-button :loading="loading" type="primary" @click="postPing"
-        >发送Ping命令</el-button
+        >获取最优路径</el-button
       >
     </div>
     <div class="result"></div>
+    <div class="delay">
+      <h1 class="delay-title">时延信息表</h1>
+      <el-table :data="links" height="500" style="width: 100%">
+        <el-table-column prop="source.id" label="源ip"></el-table-column>
+        <el-table-column prop="target.id" label="目的ip"></el-table-column>
+      </el-table>
+    </div>
   </div>
 </template>
 
@@ -21,6 +28,7 @@ export default {
     return {
       ip1: "",
       ip2: "",
+      links: [],
       loading: false,
       width: 1200,
       height: 600,
@@ -31,18 +39,16 @@ export default {
       this.$data.loading = true;
       document.querySelector(".result").innerHTML = "";
       axios
-        .post(
-          "https://www.fastmock.site/mock/2f97da4b636ec930d010ddf4c9415f84/sdn/bestpath",
-          {
-            ip1: this.$data.ip1,
-            ip2: this.$data.ip2,
-          }
-        )
+        .post("http://210.41.99.31:88/bestpath", {
+          ip1: this.$data.ip1,
+          ip2: this.$data.ip2,
+        })
         .then((res) => {
-          this.$data.loading = false;
           console.log(res);
-          this.$data.links = res.data.data.links;
-          this.$data.nodes = res.data.data.nodes;
+          this.$data.loading = false;
+          // console.log(res);
+          this.$data.links = res.data.links;
+          this.$data.nodes = res.data.nodes;
           document.querySelector(".result").append(this.chart());
         });
     },
@@ -74,7 +80,7 @@ export default {
         .selectAll("line")
         .data(links)
         .join("line")
-        .attr("stroke-width", (d) => Math.sqrt(d.value));
+        .attr("stroke-width", 1.5);
 
       const node = svg
         .append("g")
@@ -158,5 +164,11 @@ export default {
 }
 .btn {
   margin-top: 20px;
+}
+.result {
+  min-height: 600px;
+}
+.delay-title {
+  text-align: center;
 }
 </style>

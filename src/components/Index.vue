@@ -8,7 +8,7 @@
         :router="true"
       >
         <el-menu-item index="/topo">拓扑信息</el-menu-item>
-        <el-menu-item index="/ping">Ping</el-menu-item>
+        <el-menu-item index="/ping">路径选择</el-menu-item>
       </el-menu>
     </div>
     <div class="page-content">
@@ -21,14 +21,14 @@
 export default {
   data() {
     return {
-      activeName: "Topo"
+      activeName: "Topo",
     };
   },
   methods: {
     handleTabClick() {
       console.log("clicked");
-    }
-  }
+    },
+  },
 };
 </script>
 

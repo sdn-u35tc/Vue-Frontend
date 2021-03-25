@@ -62,7 +62,7 @@ export default {
         .selectAll("line")
         .data(links)
         .join("line")
-        .attr("stroke-width", (d) => Math.sqrt(d.value));
+        .attr("stroke-width", 1.5);
 
       const node = svg
         .append("g")
@@ -127,21 +127,18 @@ export default {
         .on("end", dragended);
     },
     getTopo() {
-      axios
-        .get(
-          "https://www.fastmock.site/mock/2f97da4b636ec930d010ddf4c9415f84/sdn/sdn/getTopo"
-        )
-        .then((res) => {
-          console.log(res.data.data.links);
-          this.$data.links = res.data.data.links;
-          console.log(this.$data.links);
-          this.$data.nodes = res.data.data.nodes;
-          const chart = this.chart();
-          console.log(chart);
-          this.$data.chart = chart;
-          document.querySelector(".topo").append(this.$data.chart);
-          this.$data.loading = false;
-        });
+      axios.get("http://210.41.99.31:88/basictopo").then((res) => {
+        console.log(res);
+        // console.log(res.data.links);
+        this.$data.links = res.data.links;
+        // console.log(this.$data.links);
+        this.$data.nodes = res.data.nodes;
+        const chart = this.chart();
+        // console.log(chart);
+        this.$data.chart = chart;
+        document.querySelector(".topo").append(this.$data.chart);
+        this.$data.loading = false;
+      });
     },
     refreshTopo() {
       this.$data.loading = true;
